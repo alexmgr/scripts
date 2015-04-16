@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+[[ "${#}" -ne 1  ]] && { echo "Usage: ${0} vm_name" 1>&2; exit 1; }                                   
+                                                                                                                           
+vm_name=$(VBoxManage list vms | grep -i ${1} | awk '{print $1}' | sed 's/"//g')
+
+if [[ ! -z ${vm_name} ]]; then
+  VBoxManage list runningvms | grep -i "${vm_name}" 2>&1 >/dev/null
+  [[ $? -eq 0 ]] && VBoxManage controlvm "${vm_name}" savestate 2>&1 >/dev/null
+fi
+
