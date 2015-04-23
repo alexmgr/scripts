@@ -5,3 +5,5 @@ unset CXX
 unset CPP
 unset LD
 unset CFLAGS
+unset CXXFLAGS
+unset LDFLAGS

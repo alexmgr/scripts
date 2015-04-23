@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[[ "${#}" -ne 1  ]] && { echo "Usage: ${0} gcc-version" 1>&2; exit 1; }
+[[ "${#}" -eq 0 || "${#}" -gt 2 ]] && { echo "Usage: ${0} gcc-version [FLAGS]" 1>&2; exit 1; }
 
 version=${1}
 # Assume that if we find gcc, we have the rest
@@ -11,7 +11,9 @@ if [[ $? -eq 0 ]]; then
   export CXX="/usr/local/bin/g++-${version}"
   export CPP="/usr/local/bin/cpp-${version}"
   export LD="/usr/local/bin/gcc-${version}"
-  export CFLAGS=-Wno-error=deprecated-declarations
+  export CFLAGS=-"Wno-error=deprecated-declarations ${2}"
+  export CXXFLAGS="${2}"
+  export LDFLAGS="${2}"
 else
   echo "GCC version ${version} not found. Exiting" 1>&2; exit 1;
 fi
